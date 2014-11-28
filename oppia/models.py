@@ -20,6 +20,16 @@ class UserProfile (models.Model):
     about = models.TextField(blank=True, null=True, default=None)
     job_title = models.TextField(blank=True, null=True, default=None)
     organisation = models.TextField(blank=True, null=True, default=None)
+    phoneno = models.CharField(max_length=50, default='')
+    currently_working_facility = models.CharField(max_length=50, default='')
+    staff_type = models.CharField(max_length=50, default='')
+    nurhi_sponsor_training = models.CharField(max_length=50, default='')
+    highest_education_level = models.CharField(max_length=50, default='')
+    fp_methods_provided = models.TextField(null=True, blank=True, default=None)
+    religion = models.CharField(max_length=50, default='')
+    sex = models.CharField(max_length=50, default='')
+    age = models.CharField(max_length=50, default='')
+
 
 class Course(models.Model):
     user = models.ForeignKey(User)

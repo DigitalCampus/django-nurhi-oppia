@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+<h2>{% trans 'page_title_register' %}</h2>
+<form action="{% url 'profile_register' %}" method="post">{% csrf_token %}
+    <div class="errorWrapper">{{ form.non_field_errors }}</div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.username.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_username">{% trans 'form_field_username' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.username }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.email.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_email">{% trans 'form_field_email' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.email }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.password.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_password">{% trans 'form_field_password' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.password }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.password_again.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_password_again">{% trans 'form_field_password_again' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.password_again }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.first_name.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_first_name">{% trans 'form_field_first_name' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.first_name }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.last_name.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_last_name">{% trans 'form_field_last_name' %}</label></div>
+        <div class="fieldInputWrapper">{{ form.last_name }}</div>
+    </div>
+    	<div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.phoneno.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_phoneno">Phone No</label></div>
+        <div class="fieldInputWrapper">{{ form.phoneno }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.currently_working_facility.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_currently_working_facility">Currently Working Facility</label></div>
+        <div class="fieldInputWrapper">{{ form.currently_working_facility }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.staff_type.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_staff_type">Staff Type</label></div>
+        <div class="fieldInputWrapper">{{ form.staff_type }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.nurhi_sponsor_training.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_nurhi_sponsor_training">Nurhi Sponsor Training</label></div>
+        <div class="fieldInputWrapper">{{ form.nurhi_sponsor_training }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.fp_methods_provided.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_fp_methods_provided">Family Planning Methods Provided</label></div>
+        <div class="fieldInputWrapper">{{ form.fp_methods_provided }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.highest_education_level.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_highest_education_level">Highest Education Level</label></div>
+        <div class="fieldInputWrapper">{{ form.highest_education_level }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.religion.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_religion">Religion</label></div>
+        <div class="fieldInputWrapper">{{ form.religion }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.sex.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_sex">Sex</label></div>
+        <div class="fieldInputWrapper">{{ form.sex }}</div>
+    </div>
+    <div class="fieldWrapper">
+        <div class="fieldErrorWrapper">{{ form.age.errors }}</div>
+        <div class="fieldLabelWrapper"><label for="id_city">Age</label></div>
+        <div class="fieldInputWrapper">{{ form.age }}</div>
+    </div> 
+    <div class="fieldWrapper">
+        <div class="fieldLabelWrapper">&nbsp;</div>
+        <div class="fieldInputWrapper"><input type="submit" value="{% trans 'button_register' %}" /></div>
+    </div>
+
+</form>
+{% endblock %}

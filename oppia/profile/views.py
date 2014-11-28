@@ -62,11 +62,32 @@ def register(request):
             user.first_name = first_name
             user.last_name = last_name
             user.save()
+            
+            phoneno = form.cleaned_data.get("phoneno")
+            currently_working_facility = form.cleaned_data.get("currently_working_facility")
+            staff_type = form.cleaned_data.get("staff_type")
+            nurhi_sponsor_training = form.cleaned_data.get("nurhi_sponsor_training")
+            fp_methods_provided = form.cleaned_data.get("fp_methods_provided")
+            highest_education_level = form.cleaned_data.get("highest_education_level")
+            religion = form.cleaned_data.get("religion")
+            sex = form.cleaned_data.get("sex")
+            age = form.cleaned_data.get("age")
+            
             user_profile = UserProfile()
             user_profile.user = user
+            user_profile.phoneno = phoneno
+            user_profile.currently_working_facility = currently_working_facility
+            user_profile.staff_type = staff_type
+            user_profile.nurhi_sponsor_training = nurhi_sponsor_training
+            user_profile.fp_methods_provided = fp_methods_provided
+            user_profile.highest_education_level = highest_education_level
+            user_profile.religion = religion
+            user_profile.sex = sex
+            user_profile.age = age
             user_profile.job_title = form.cleaned_data.get("job_title")
             user_profile.organisation = form.cleaned_data.get("organisation")
             user_profile.save()
+
             u = authenticate(username=username, password=password)
             if u is not None:
                 if u.is_active:
@@ -116,17 +137,33 @@ def edit(request):
             request.user.last_name = last_name
             request.user.save()
             
+            phoneno = form.cleaned_data.get("phoneno")
+            currently_working_facility = form.cleaned_data.get("currently_working_facility")
+            staff_type = form.cleaned_data.get("staff_type")
+            nurhi_sponsor_training = form.cleaned_data.get("nurhi_sponsor_training")
+            fp_methods_provided = form.cleaned_data.get("fp_methods_provided")
+            highest_education_level = form.cleaned_data.get("highest_education_level")
+            religion = form.cleaned_data.get("religion")
+            sex = form.cleaned_data.get("sex")
+            age = form.cleaned_data.get("age")
+            
             try:
                 user_profile = UserProfile.objects.get(user=request.user)
-                user_profile.job_title = form.cleaned_data.get("job_title")
-                user_profile.organisation = form.cleaned_data.get("organisation")
-                user_profile.save()
             except UserProfile.DoesNotExist:
                 user_profile = UserProfile()
                 user_profile.user = request.user
-                user_profile.job_title = form.cleaned_data.get("job_title")
-                user_profile.organisation = form.cleaned_data.get("organisation")
-                user_profile.save()
+                
+            user_profile.phoneno = phoneno
+            user_profile.currently_working_facility = currently_working_facility
+            user_profile.staff_type = staff_type
+            user_profile.nurhi_sponsor_training = nurhi_sponsor_training
+            user_profile.fp_methods_provided = fp_methods_provided
+            user_profile.highest_education_level = highest_education_level
+            user_profile.religion = religion
+            user_profile.sex = sex
+            user_profile.age = age
+            user_profile.save()
+            
             messages.success(request, _(u"Profile updated"))
             
             # if password should be changed
@@ -140,13 +177,21 @@ def edit(request):
             user_profile = UserProfile.objects.get(user=request.user)
         except UserProfile.DoesNotExist:
             user_profile = UserProfile()
+            
         form = ProfileForm(initial={'username':request.user.username,
                                     'email':request.user.email,
                                     'first_name':request.user.first_name,
                                     'last_name':request.user.last_name,
-                                    'api_key': key.key,
-                                    'job_title': user_profile.job_title,
-                                    'organisation': user_profile.organisation,})
+                                    'phoneno':user_profile.phoneno,
+                                    'currently_working_facility':user_profile.currently_working_facility,
+                                    'staff_type':user_profile.staff_type,
+                                    'nurhi_sponsor_training':user_profile.nurhi_sponsor_training,
+                                    'fp_methods_provided':user_profile.fp_methods_provided,
+                                    'highest_education_level':user_profile.highest_education_level,
+                                    'religion':user_profile.religion,
+                                    'sex':user_profile.sex,
+                                    'age':user_profile.age, 
+                                    'api_key': key.key})
         
     return render(request, 'oppia/profile/profile.html', {'form': form,})
 

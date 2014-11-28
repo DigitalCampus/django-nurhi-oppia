@@ -58,7 +58,8 @@ def modify(settings):
     settings['OPPIA_STAFF_ONLY_UPLOAD'] = True          # prevents anyone without is_staff status being able to upload courses,
                                                         # setting to False allows any registered user to upload a course
     
-    settings['OPPIA_POINTS_ENABLED'] = True            # determines if the points system is enabled
+    settings['OPPIA_POINTS_ENABLED'] = False             # determines if the points system is enabled
+
     # if OPPIA POINTS_ENABLED is false, then the next 3 settings are ignored
     settings['OPPIA_STAFF_EARN_POINTS'] = False         # prevent staff from earning points
     settings['OPPIA_COURSE_OWNERS_EARN_POINTS'] = False # stops owners of courses earning points
@@ -66,11 +67,11 @@ def modify(settings):
     
     settings['OPPIA_BADGES_ENABLED'] = True            # determines if the badges system is enabled
     
-    settings['OPPIA_GOOGLE_ANALYTICS_ENABLED'] = True
+    settings['OPPIA_GOOGLE_ANALYTICS_ENABLED'] = False
     settings['OPPIA_GOOGLE_ANALYTICS_CODE'] = 'UA-3609005-11'
-    settings['OPPIA_GOOGLE_ANALYTICS_DOMAIN'] = 'oppia-mobile.org'
+    settings['OPPIA_GOOGLE_ANALYTICS_DOMAIN'] = 'localhost'
     
-    settings['OPPIA_MAX_UPLOAD_SIZE'] = 5242880         # max course file upload size - in bytes
-    
+    settings['OPPIA_MAX_UPLOAD_SIZE'] = 26214400        # = 25Mb max course file upload size - in bytes
+                                        #5242880 = 5mb 
     settings['API_LIMIT_PER_PAGE'] = 0
     

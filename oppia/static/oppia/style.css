@@ -1,8 +1,7 @@
 /*
  * Base structure
- #495525 - DC dark green r73,g85,b37
- #77A240 - DC mid green r119,g162, b64
- #a5c727 - DC light green r165,g199,b39
+ #01588f - Nurhi dark blue
+ #6ab0dc - Nurhi mid- blue
  */
 
 /* Move down content because we have a fixed navbar that is 50px tall */
@@ -12,12 +11,12 @@ body {
 
 
 a {
-    color: #495525;
+    color: #01588f;
     text-decoration: none;
 }
 
 a:hover, a:focus {
-    color: #495525;
+    color: #01588f;
     text-decoration: underline;
 }
 
@@ -34,8 +33,8 @@ a:hover, a:focus {
 }
 
 .navbar-inverse {
-    background-color: #77A240;
-    border-color: #495525;
+    background-color: #6ab0dc;
+    border-color: #01588f;
 }
 
 .navbar-inverse .navbar-brand {
@@ -51,7 +50,7 @@ a:hover, a:focus {
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-    background-color: #495525;
+    background-color: #01588f;
 }
 
 /*
@@ -87,24 +86,25 @@ a:hover, a:focus {
 .nav-sidebar > li > a {
   padding-right: 20px;
   padding-left: 20px;
-  color: #495525;
+  color: #01588f;
 }
+
 .nav-sidebar > .text {
-  color: #495525;
+  color: #01588f;
   padding: 10px 20px;
 }
 
 .nav-sidebar > .active > a {
   color: #fff;
-  background-color: #77A240;
+  background-color: #6ab0dc;
 }
 
 .nav > li > a:hover {
-  background-color: #77A240;
+  background-color: #6ab0dc;
   color: #fff;
 }
 .nav > li > a:focus {
-  background-color: #77A240;
+  background-color: #6ab0dc;
   color: #fff;
 }
 
@@ -140,6 +140,7 @@ a:hover, a:focus {
 .placeholders h4 {
   margin-bottom: 0;
 }
+
 .placeholder {
   margin-bottom: 20px;
 }
@@ -153,21 +154,21 @@ a:hover, a:focus {
  */
  
 .form-control:focus {
-	border-color: #a5c727;
+	border-color: #6ab0dc;
 	box-shadow: 0 1px 1px rgba(0,0,0,0.075) inset, 0 0 8px rgba(165,199,39,0.6);
 	outline: 0 none;
 }
 
 .btn-primary {
-    background-color: #77A240;
-    border-color: #495525;
+    background-color: #6ab0dc;
+    border-color: #01588f;
     color: #FFFFFF;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active,
 	.btn-primary.active, .open .dropdown-toggle.btn-primary {
-    background-color: #77A240;
-    border-color: #495525;
+    background-color: #6ab0dc;
+    border-color: #01588f;
     color: #FFFFFF;
 }
 
@@ -186,7 +187,7 @@ a:hover, a:focus {
  */
  
 #footer {
-	border-top: 1px solid #a5c727;
+	border-top: 1px solid #6ab0dc;
 	margin-top:50px;
 	padding-top: 20px;
 	text-align:right;

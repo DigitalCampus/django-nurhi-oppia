@@ -47,7 +47,15 @@ class CourseDownloadAdmin(admin.ModelAdmin):
     list_display = ('user', 'course','download_date','course_version','ip','agent')
     
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'about', 'job_title', 'organisation')
+    list_display = ('user', 'about', 'job_title', 'organisation','phoneno',
+                    'currently_working_facility',
+                    'staff_type',
+                    'nurhi_sponsor_training',
+                    'fp_methods_provided',
+                    'highest_education_level',
+                    'religion',
+                    'sex',
+                    'age',)
  
 class MediaAdmin(admin.ModelAdmin):
     list_display = ('course', 'digest','filename','download_url')   
@@ -80,3 +88,4 @@ admin.site.register(Section,SectionAdmin)
 admin.site.register(Tag,TagAdmin)
 admin.site.register(Tracker, TrackerAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
+
