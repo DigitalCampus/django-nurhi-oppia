@@ -29,8 +29,8 @@ class UserProfile (models.Model):
     religion = models.CharField(max_length=50, default='')
     sex = models.CharField(max_length=50, default='')
     age = models.CharField(max_length=50, default='')
-
-
+    phone_number = models.TextField(blank=True, null=True, default=None)
+    
 class Course(models.Model):
     user = models.ForeignKey(User)
     created_date = models.DateTimeField('date created',default=timezone.now)

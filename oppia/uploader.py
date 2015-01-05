@@ -6,6 +6,7 @@ import xml.dom.minidom
 import zipfile
 from django.conf import settings
 from django.contrib import messages
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from oppia.models import Course, Section, Activity, Media
 from xml.dom.minidom import Node
@@ -87,7 +88,7 @@ def handle_uploaded_file(f, extract_path, request):
         course.version = versionid
         course.user = request.user
         course.filename = f.name
-        course.lastupdated_date = datetime.datetime.now()
+        course.lastupdated_date = timezone.now()
         course.save()
     except Course.DoesNotExist:
         course = Course()
@@ -99,9 +100,7 @@ def handle_uploaded_file(f, extract_path, request):
         course.filename = f.name
         course.is_draft = True
         course.save()
-    
-    
-            
+       
     # add in any baseline activities
     for meta in doc.getElementsByTagName("meta")[:1]:
         if meta.getElementsByTagName("activity").length > 0:
@@ -112,8 +111,7 @@ def handle_uploaded_file(f, extract_path, request):
             section.save()
             for a in meta.getElementsByTagName("activity"):
                 activity_create(section, a,True)
-            
-       
+                    
     # add all the sections
     for structure in doc.getElementsByTagName("structure")[:1]:
         
@@ -137,7 +135,7 @@ def handle_uploaded_file(f, extract_path, request):
             # add all the activities
             for activities in s.getElementsByTagName("activities")[:1]:
                 for a in activities.getElementsByTagName("activity"):
-                    activity_create(section, a,False)
+                    activity_create(section, a, False)
                     
     # add all the media
     for file in doc.lastChild.lastChild.childNodes:
@@ -158,7 +156,10 @@ def handle_uploaded_file(f, extract_path, request):
             media.save()
     
     if old_course_filename is not None and old_course_filename != course.filename:
-        os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+        try:
+            os.remove(settings.COURSE_UPLOAD_DIR + old_course_filename)
+        except OSError:
+            pass
     
     #Extract the final file into the courses area for preview
     zipfilepath = settings.COURSE_UPLOAD_DIR + f.name
@@ -194,6 +195,11 @@ def activity_create(section, act, baseline=False):
     elif act.getAttribute("type") == "resource":
         for c in act.getElementsByTagName("location"):
             content = c.firstChild.nodeValue
+    elif act.getAttribute("type") == "url":
+        temp_content = {}
+        for t in act.getElementsByTagName("location"):
+            temp_content[t.getAttribute('lang')] = t.firstChild.nodeValue
+        content = json.dumps(temp_content)
     else:
         content = None
     

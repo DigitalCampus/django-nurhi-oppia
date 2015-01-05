@@ -13,6 +13,7 @@ from django.core import serializers
 from django.core.mail import send_mail
 from django.core.servers.basehttp import FileWrapper
 from django.db import IntegrityError
+from django.db.models import Sum
 from django.http import HttpRequest, HttpResponse ,Http404
 from django.utils.translation import ugettext_lazy as _
 
@@ -57,6 +58,7 @@ class UserResource(ModelResource):
     scoring = fields.BooleanField(readonly=True)
     badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
+    course_points = fields.CharField(readonly=True)
     
     class Meta:
         queryset = User.objects.all()
@@ -117,6 +119,10 @@ class UserResource(ModelResource):
     
     def dehydrate_metadata(self,bundle):
         return settings.OPPIA_METADATA
+    
+    def dehydrate_course_points(self,bundle):
+        course_points = list(Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(total_points=Sum('points')))
+        return course_points
 
 class RegisterResource(ModelResource):
     ''' 
@@ -211,6 +217,8 @@ class RegisterResource(ModelResource):
                 user_profile.job_title = bundle.data['jobtitle']
             if 'organisation' in bundle.data:
                 user_profile.organisation = bundle.data['organisation']
+            if 'phoneno' in bundle.data:
+                user_profile.phone_number= bundle.data['phoneno']
             user_profile.save()
             
             u = authenticate(username=username, password=password)
@@ -269,7 +277,7 @@ class ResetPasswordResource(ModelResource):
         queryset = User.objects.all()
         resource_name = 'reset'
         allowed_methods = ['post']
-        fields = ['username','message']
+        fields = ['username', 'message']
         authorization = Authorization() 
         always_return_data = True 
         include_resource_uri = False   
@@ -280,25 +288,29 @@ class ResetPasswordResource(ModelResource):
             try:
                 bundle.data[r]
             except KeyError:
-                raise BadRequest(_(u'Please enter your %s') % r)
+                raise BadRequest(_(u'Please enter your username or email address'))
          
         bundle.obj.username = bundle.data['username']
         try:
             user = User.objects.get(username__exact=bundle.obj.username)
-            newpass = User.objects.make_random_password(length=8)
-            user.set_password(newpass)
-            user.save()
-            if bundle.request.is_secure():
-                prefix = 'https://'
-            else:
-                prefix = 'http://'
-            # TODO - better way to manage email message content
-            send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: '+newpass 
-                      + '\n\nWhen you next log in you can update your password to something more memorable.' 
-                      + '\n\n' + prefix + bundle.request.META['SERVER_NAME'] , 
-                      settings.SERVER_EMAIL, [user.email], fail_silently=False) 
         except User.DoesNotExist:
-            pass
+            try:
+                user = User.objects.get(email__exact=bundle.obj.username)
+            except User.DoesNotExist:
+                raise BadRequest(_(u'Username/email not found'))
+            
+        newpass = User.objects.make_random_password(length=8)
+        user.set_password(newpass)
+        user.save()
+        if bundle.request.is_secure():
+            prefix = 'https://'
+        else:
+            prefix = 'http://'
+        # TODO - better way to manage email message content
+        send_mail('OppiaMobile: Password reset', 'Here is your new password for OppiaMobile: '+newpass 
+                  + '\n\nWhen you next log in you can update your password to something more memorable.' 
+                  + '\n\n' + prefix + bundle.request.META['SERVER_NAME'] , 
+                  settings.SERVER_EMAIL, [user.email], fail_silently=False) 
         
         return bundle       
         
@@ -316,6 +328,7 @@ class TrackerResource(ModelResource):
     scoring = fields.BooleanField(readonly=True)
     badging = fields.BooleanField(readonly=True)
     metadata = fields.CharField(readonly=True)
+    course_points = fields.CharField(readonly=True)
     
     class Meta:
         queryset = Tracker.objects.all()
@@ -419,6 +432,10 @@ class TrackerResource(ModelResource):
     def dehydrate_metadata(self,bundle):
         return settings.OPPIA_METADATA
     
+    def dehydrate_course_points(self,bundle):
+        course_points = list(Points.objects.exclude(course=None).filter(user=bundle.request.user).values('course__shortname').annotate(total_points=Sum('points')))
+        return course_points
+    
     def patch_list(self,request,**kwargs):
         request = convert_post_to_patch(request)
         deserialized = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
@@ -433,7 +450,9 @@ class TrackerResource(ModelResource):
                          'badges':self.dehydrate_badges(bundle),
                          'scoring':self.dehydrate_scoring(bundle),
                          'badging':self.dehydrate_badging(bundle),
-                         'metadata':self.dehydrate_metadata(bundle)}
+                         'metadata':self.dehydrate_metadata(bundle),
+                         'course_points': self.dehydrate_course_points(bundle),
+                         }
         response = HttpResponse(content=json.dumps(response_data),content_type="application/json; charset=utf-8")
         return response
     
