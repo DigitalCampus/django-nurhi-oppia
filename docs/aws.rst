@@ -75,15 +75,18 @@ so once you have set up your instance, you should try to keep it up to date.
 Fortunately it's straightforward to update to the latest version:
 
 * Go into the ``/home/oppiamobile/django-oppia/`` directory
-* Run ``git pull``
+* Run ``sudo git pull``
 
-This will update your server to the latest version of the django-oppia server. 
-If any new updates were made, run the following commands (when 
-the virtualenv is active):
+This will update your server to the latest version of the django-oppia server.
+ 
+If any updates were made, firstly activiate the virtual environment. From the 
+``/home/oppiamobile`` directory run:
 
-* ``python manage.py migrate oppia``
-* ``python manage.py migrate oppia.quiz``
-* ``python manage.py migrate oppia.viz``
+* ``source env/bin/activiate``
+
+Then, from the ``/home/oppiamobile/oppia_web`` directory, run:
+
+* ``python manage.py migrate``
 * ``python manage.py collectstatic``
 
 Creating your own version of django-oppia
@@ -97,15 +100,14 @@ your fork instead.
 
 Environment information
 -----------------------
-The current version of the instance (OppiaMobile Server 0.4.3) is running:
+The current version of the instance is running:
 
 * Ubuntu 14.04.1 LTS Server
 * Apache 2.4
 * Mysql 5.5
-* Django 1.6.1
-* TastyPie 0.11.0
-* South 0.8.4
-* OppiaServer 0.4.3
+* Django 1.7.3
+* TastyPie 0.12.0
+* OppiaServer 0.7.2
 
 
 Email configuration

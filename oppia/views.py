@@ -1,7 +1,6 @@
 # oppia/views.py
 import datetime
 import json
-import shutil
 import os
 import oppia
 import tablib
@@ -24,7 +23,7 @@ from django.utils import timezone
 
 from oppia.forms import UploadCourseStep1Form, UploadCourseStep2Form, ScheduleForm, DateRangeForm, DateRangeIntervalForm
 from oppia.forms import ActivityScheduleForm, CohortForm
-from oppia.models import Course, Tracker, Tag, CourseTag, Schedule
+from oppia.models import Course, Tracker, Tag, CourseTag, Schedule, CourseManager
 from oppia.models import ActivitySchedule, Activity, Cohort, Participant, Points 
 from oppia.quiz.models import Quiz, QuizAttempt, QuizAttemptResponse
 
@@ -135,20 +134,18 @@ def terms_view(request):
     return render_to_response('oppia/terms.html', {'settings': settings}, context_instance=RequestContext(request))
         
 def upload_step1(request):
-    if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff:
+    if not can_upload(request):
         return render_to_response('oppia/upload-staff-only.html', {'settings': settings}, context_instance=RequestContext(request))
         
     
     if request.method == 'POST':
         form = UploadCourseStep1Form(request.POST,request.FILES)
         if form.is_valid(): # All validation rules pass
-            extract_path = settings.COURSE_UPLOAD_DIR + 'temp/' + str(request.user.id) + '/' 
-            course = handle_uploaded_file(request.FILES['course_file'], extract_path, request)
+            extract_path = os.path.join(settings.COURSE_UPLOAD_DIR, 'temp', str(request.user.id))
+            course = handle_uploaded_file(request.FILES['course_file'], extract_path, request, request.user)
             if course:
-                shutil.rmtree(extract_path)
                 return HttpResponseRedirect(reverse('oppia_upload2', args=[course.id])) # Redirect after POST
             else:
-                shutil.rmtree(extract_path,ignore_errors=True)
                 os.remove(settings.COURSE_UPLOAD_DIR + request.FILES['course_file'].name)
     else:
         form = UploadCourseStep1Form() # An unbound form
@@ -156,7 +153,7 @@ def upload_step1(request):
     return render(request, 'oppia/upload.html', {'form': form,'title':_(u'Upload Course - step 1')})
 
 def upload_step2(request, course_id):
-    if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff:
+    if not can_upload(request):
         return render_to_response('oppia/upload-staff-only.html', {'settings': settings}, context_instance=RequestContext(request))
         
     course = Course.objects.get(pk=course_id)
@@ -482,18 +479,19 @@ def schedule_saved(request, course_id, schedule_id=None):
                                     {'course': course},
                                   context_instance=RequestContext(request))
  
-def cohort(request,course_id):
-    course = check_owner(request,course_id)    
-    cohorts = Cohort.objects.filter(course=course)
-    return render_to_response('oppia/course/cohorts.html',{'course': course,'cohorts':cohorts,}, context_instance=RequestContext(request))
+def cohort(request):
+    if not request.user.is_staff:
+        raise Http404  
+    cohorts = Cohort.objects.all()
+    return render_to_response('oppia/course/cohorts.html',{'cohorts':cohorts,}, context_instance=RequestContext(request))
   
-def cohort_add(request,course_id):
-    course = check_owner(request,course_id)
+def cohort_add(request):
+    if not request.user.is_staff:
+        raise Http404  
     if request.method == 'POST':
         form = CohortForm(request.POST)
         if form.is_valid(): # All validation rules pass
             cohort = Cohort()
-            cohort.course = course
             cohort.start_date = form.cleaned_data.get("start_date")
             cohort.end_date = form.cleaned_data.get("end_date")
             cohort.description = form.cleaned_data.get("description").strip()
@@ -528,10 +526,64 @@ def cohort_add(request,course_id):
     else:
         form = CohortForm() # An unbound form
 
-    return render(request, 'oppia/cohort-form.html',{'course': course,'form': form,})  
+    return render(request, 'oppia/cohort-form.html',{'form': form,})  
 
-def cohort_edit(request,course_id,cohort_id):
-    course = check_owner(request,course_id)
+def cohort_view(request,cohort_id):
+    if not request.user.is_staff:
+        raise Http404  
+    cohort = Cohort.objects.get(pk=cohort_id)
+    
+    start_date = timezone.now() - datetime.timedelta(days=31)
+    end_date = timezone.now()
+    
+    # get teacher activity
+    teacher_activity = []
+    no_days = (end_date-start_date).days + 1
+    teachers =  User.objects.filter(participant__role=Participant.TEACHER, participant__cohort=cohort)
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        day = temp.strftime("%d")
+        month = temp.strftime("%m")
+        year = temp.strftime("%Y")
+        count = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
+                                       user__is_staff=False,
+                                       user__in=teachers, 
+                                       tracker_date__day=day,
+                                       tracker_date__month=month,
+                                       tracker_date__year=year).count()
+        teacher_activity.append([temp.strftime("%d %b %Y"),count])
+        
+    # get student activity
+    student_activity = []
+    no_days = (end_date-start_date).days + 1
+    students =  User.objects.filter(participant__role=Participant.STUDENT, participant__cohort=cohort)    
+    for i in range(0,no_days,+1):
+        temp = start_date + datetime.timedelta(days=i)
+        day = temp.strftime("%d")
+        month = temp.strftime("%m")
+        year = temp.strftime("%Y")
+        count = Tracker.objects.filter(course__coursecohort__cohort=cohort, 
+                                       user__is_staff=False,
+                                       user__in=students,  
+                                       tracker_date__day=day,
+                                       tracker_date__month=month,
+                                       tracker_date__year=year).count()
+        student_activity.append([temp.strftime("%d %b %Y"),count])
+        
+    # get leaderboard
+    leaderboard = Points.get_cohort_leaderboard(10, cohort)
+    
+    
+    return render_to_response('oppia/course/cohort-activity.html',
+                              {'cohort':cohort,
+                               'teacher_activity': teacher_activity,
+                               'student_activity': student_activity, 
+                               'leaderboard': leaderboard, }, 
+                              context_instance=RequestContext(request))
+
+def cohort_edit(request,cohort_id):
+    if not request.user.is_staff:
+        raise Http404  
     cohort = Cohort.objects.get(pk=cohort_id)
     if request.method == 'POST':
         form = CohortForm(request.POST)
@@ -581,18 +633,44 @@ def cohort_edit(request,course_id,cohort_id):
         students = ", ".join(student_list)
         form = CohortForm(initial={'description':cohort.description,'teachers':teachers,'students':students,'start_date': cohort.start_date,'end_date': cohort.end_date}) 
 
-    return render(request, 'oppia/cohort-form.html',{'course': course,'form': form,}) 
-         
+    return render(request, 'oppia/cohort-form.html',{'form': form,}) 
+  
+  
+def can_upload(request):
+    if settings.OPPIA_STAFF_ONLY_UPLOAD is True and not request.user.is_staff and request.user.userprofile.can_upload is False:
+        return False
+    else:
+        return True
+           
 def check_owner(request,id):
     try:
         # check only the owner can view 
         if request.user.is_staff:
             course = Course.objects.get(pk=id)
         else:
-            course = Course.objects.get(pk=id,user=request.user)
+            try:
+                course = Course.objects.get(pk=id,user=request.user)
+            except Course.DoesNotExist:
+                course = Course.objects.get(pk=id,coursemanager__course__id=id, coursemanager__user = request.user)
     except Course.DoesNotExist:
         raise Http404
     return course
+
+def is_manager(course_id,user):
+    try:
+        # check only the owner can view 
+        if user.is_staff:
+            return True
+        else:
+            try:
+                course = Course.objects.get(pk=course_id,user=user)
+                return True
+            except Course.DoesNotExist:
+                course = Course.objects.get(pk=course_id,coursemanager__course__id=course_id, coursemanager__user = user)
+                return True
+    except Course.DoesNotExist:
+        return False
+
 
 def check_can_view(request,id):
     try:
@@ -600,7 +678,10 @@ def check_can_view(request,id):
         if request.user.is_staff:
             course = Course.objects.get(pk=id)
         else:
-            course = Course.objects.get(pk=id,is_draft=False,is_archived=False)
+            try:
+                course = Course.objects.get(pk=id,is_draft=False,is_archived=False)
+            except Course.DoesNotExist:
+                course = Course.objects.get(pk=id,is_draft=False,is_archived=False, coursemanager__course__id=id, coursemanager__user = request.user)
     except Course.DoesNotExist:
         raise Http404
     return course
@@ -608,7 +689,7 @@ def check_can_view(request,id):
 def get_nav(course, user):
     nav = []
     nav.append({'url':reverse('oppia_recent_activity',args=(course.id,)), 'title':course.get_title(), 'class':'bold'})
-    if user.is_staff or user == course.user:
+    if is_manager(course.id,user):
         nav.append({'url':reverse('oppia_recent_activity_detail',args=(course.id,)), 'title':_(u'Activity Detail')})
         if course.has_quizzes():
             nav.append({'url':reverse('oppia_course_quiz',args=(course.id,)), 'title':_(u'Course Quizzes')})

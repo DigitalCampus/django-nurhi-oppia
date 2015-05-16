@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-oppia',
-    version='0.6.0',
+    version='0.7.3',
     packages=['oppia',
               'oppia.quiz',
               'oppia.api',
@@ -24,7 +24,7 @@ setup(
     license='GNU GPL v3 License',  # example license
     description='Server side component of OppiaMobile learning platform',
     long_description=README,
-    url='http://oppia-mobile.org/',
+    url='https://digital-campus.org/',
     author='Alex Little, Digital Campus',
     author_email='alex@digital-campus.org',
     classifiers=[
@@ -41,10 +41,10 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        "Django >= 1.6.6",
-        "south >= 0.8.4",
-	    "django-tastypie >= 0.11.0",
+        "django == 1.7.8",
+	    "django-tastypie >= 0.12.0",
         "django-tablib >= 0.9.11",
         "django-crispy-forms >= 1.4.0",
+        "pytz",
     ],
 )

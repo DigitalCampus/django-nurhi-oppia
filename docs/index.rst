@@ -18,6 +18,7 @@ Contents:
    install
    aws
    virtualbox
+   block_install
    settings
    upgrade
    api

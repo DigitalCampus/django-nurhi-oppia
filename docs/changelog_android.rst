@@ -1,15 +1,55 @@
 OppiaMobile Android App Change Log
 ====================================
 
-
-v51 (5.x) - not yet released
+v52 - not yet released
 ---------------------------------------------------
+
+
+v51 (5.1.0) - released: 3 Mar 2015
+---------------------------------------------------
+* Now supports only v4 and above
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/391 - 
   allow password reset using email
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/383 - 
+  quizzes getting recorded twice in tracker
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/393 - 
+  implement URl activity
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/370 - 
+  Enable rotating of the course and media download activities
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/375 - 
+  Check there is sufficient space on device storage for downloading/moving files
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/376 - 
+  Give option in preferences to move the storage location
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/334 - 
+  Fix action bar theme colours
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/203 - 
+  Allow screen rotation for tag select
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
+  Reloading quiz/feedback after language change 
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/409 - 
+  Updated scorecard
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/376 - 
+  preferences for storage option
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
+  Reloading quiz/feedback after language change  
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/368 - 
+  embed videos into quiz and feedback activities
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
+  Reloading quiz/feedback after language change 
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/366 - 
+  load images into gallery
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/349 - 
+  Reloading quiz/feedback after language change 
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/229 - 
+  deprecated method for preferences  
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/414 - 
+  speed up searching
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/398 - 
+  clicking on points/badges
 
 v50 (5.0.1) - released: 30 Dec 2014
 ---------------------------------------------------
-* Fix https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/372 - 
+* https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/372 - 
   static prefs
 * https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/379 - 
   setting to disable logout menu option

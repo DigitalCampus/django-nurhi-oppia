@@ -28,12 +28,11 @@ Virtual Machine Image available to download by using BitTorrent Sync
 
 Environment information
 -----------------------
-The current version of the instance (OppiaMobile Server 0.4.3) is running:
+The current version of the instance is running:
 
 * Ubuntu 14.04.1 LTS Desktop
 * Apache 2.4
 * Mysql 5.5
-* Django 1.6.1
+* Django 1.7.3
 * TastyPie 0.11.0
-* South 0.8.4
-* OppiaServer 0.4.3
+* OppiaServer 0.7.2

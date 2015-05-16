@@ -18,6 +18,7 @@ models.signals.post_save.connect(create_api_key, sender=User)
 class UserProfile (models.Model):
     user = models.OneToOneField(User)
     about = models.TextField(blank=True, null=True, default=None)
+    can_upload = models.BooleanField(default=False)
     job_title = models.TextField(blank=True, null=True, default=None)
     organisation = models.TextField(blank=True, null=True, default=None)
     phoneno = models.CharField(max_length=50, default='')
@@ -67,18 +68,18 @@ class Course(models.Model):
         return self.title 
      
     def is_first_download(self,user):
-        no_attempts = CourseDownload.objects.filter(user=user,course=self).count()
+        no_attempts = Tracker.objects.filter(user=user,course=self, type='download').count()
         is_first_download = False
         if no_attempts == 1:
             is_first_download = True
         return is_first_download
     
     def no_downloads(self):
-        no_downloads = CourseDownload.objects.filter(course=self).count()
+        no_downloads = Tracker.objects.filter(course=self, type='download').count()
         return no_downloads
     
     def no_distinct_downloads(self):
-        no_distinct_downloads = CourseDownload.objects.filter(course=self).values('user_id').distinct().count()
+        no_distinct_downloads = Tracker.objects.filter(course=self, type='download').values('user_id').distinct().count()
         return no_distinct_downloads
     
     def get_default_schedule(self):
@@ -124,7 +125,15 @@ class Course(models.Model):
     def sections(self):
         sections = Section.objects.filter(course=self).order_by('order')
         return sections
-        
+ 
+class CourseManager(models.Model):
+    course = models.ForeignKey(Course)
+    user = models.ForeignKey(User)
+    
+    class Meta:
+        verbose_name = _('Course Manager')
+        verbose_name_plural = _('Course Managers')
+               
 class Tag(models.Model):
     name = models.TextField(blank=False)
     created_date = models.DateTimeField('date created',default=timezone.now)
@@ -432,21 +441,8 @@ class Tracker(models.Model):
         if 'lang' in json_data:
             return json_data['lang']
         
-         
-class CourseDownload(models.Model):
-    user = models.ForeignKey(User)
-    course = models.ForeignKey(Course)
-    download_date = models.DateTimeField('date downloaded',default=timezone.now)
-    course_version = models.BigIntegerField(default=0)
-    ip = models.IPAddressField(blank=True,default=None)
-    agent = models.TextField(blank=True,default=None)
-    
-    class Meta:
-        verbose_name = _('CourseDownload')
-        verbose_name_plural = _('CourseDownloads')
  
-class Cohort(models.Model):
-    course = models.ForeignKey(Course)  
+class Cohort(models.Model): 
     description = models.CharField(max_length=100)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
@@ -469,7 +465,7 @@ class Cohort(models.Model):
     @staticmethod
     def student_member_now(course,user):
         now = timezone.now()
-        cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
+        cohorts = Cohort.objects.filter(coursecohort__course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user,role=Participant.STUDENT)
             for p in participants:
@@ -479,7 +475,7 @@ class Cohort(models.Model):
     @staticmethod
     def teacher_member_now(course,user):
         now = timezone.now()
-        cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
+        cohorts = Cohort.objects.filter(coursecohort__course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user,role=Participant.TEACHER)
             for p in participants:
@@ -489,12 +485,21 @@ class Cohort(models.Model):
     @staticmethod
     def member_now(course,user):
         now = timezone.now()
-        cohorts = Cohort.objects.filter(course=course,start_date__lte=now,end_date__gte=now)
+        cohorts = Cohort.objects.filter(coursecohort__course=course,start_date__lte=now,end_date__gte=now)
         for c in cohorts:
             participants = c.participant_set.filter(user=user)
             for p in participants:
                 return c
         return None
+
+
+class CourseCohort(models.Model):
+    course = models.ForeignKey(Course) 
+    cohort = models.ForeignKey(Cohort)  
+  
+    class Meta:
+        unique_together = ("course", "cohort")
+ 
     
 class Participant(models.Model):
     TEACHER = 'teacher'
@@ -592,7 +597,6 @@ class Points(models.Model):
     )
     user = models.ForeignKey(User)
     course = models.ForeignKey(Course,null=True)
-    cohort = models.ForeignKey(Cohort,null=True)
     points = models.IntegerField()
     date = models.DateTimeField('date created',default=timezone.now)
     description = models.TextField(blank=False)
@@ -607,14 +611,11 @@ class Points(models.Model):
         return self.description
     
     @staticmethod
-    def get_leaderboard(count=0, course=None, cohort=None):
+    def get_leaderboard(count=0, course=None):
         users = User.objects.all()
         
         if course is not None:
             users = users.filter(points__course=course)
-        
-        if cohort is not None:
-            users = users.filter(points__cohort=cohort)
                
         if count == 0:
             users = users.annotate(total=Sum('points__points')).order_by('-total')
@@ -625,6 +626,25 @@ class Points(models.Model):
             u.badges = Award.get_userawards(u,course)
             if u.total is None:
                 u.total = 0
+        return users
+    
+    @staticmethod
+    def get_cohort_leaderboard(count, cohort):
+        users = User.objects.filter(participant__cohort=cohort, participant__role=Participant.STUDENT)
+        
+        courses = Course.objects.filter(coursecohort__cohort=cohort)
+        if courses is not None:
+            users = users.filter(points__course__in=courses)
+               
+        if count == 0:
+            users = users.annotate(total=Sum('points__points')).order_by('-total')
+        else:
+            users = users.annotate(total=Sum('points__points')).order_by('-total')[:count]
+            
+        #for u in users:
+        #    u.badges = Award.get_userawards(u,course)
+        #    if u.total is None:
+        #        u.total = 0
         return users
     
     @staticmethod
