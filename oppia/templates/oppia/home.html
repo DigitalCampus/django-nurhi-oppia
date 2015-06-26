@@ -3,6 +3,10 @@
 {% load display_functions %} 
 {% load crispy_forms_tags %}
 
+{% block extra_head_title %}
+	{% trans 'Home' %}
+{% endblock extra_head_title %}
+
 {% if user.is_authenticated %}
 	{% block extra_body %}
 		onload="setUpDatePicker();"
@@ -37,7 +41,7 @@
 	                			height: 400,
 	                			vAxis: {minValue:0},
 	                			pointSize:3,
-	                			chartArea: {left:45,top:10,width:"90%",height:"75%"},
+	                			chartArea: {left:80,top:10,width:"90%",height:"75%"},
 	                			backgroundColor: 'transparent',
 	                			legend: 'none',
 	                			series: [{areaOpacity:0.2}]

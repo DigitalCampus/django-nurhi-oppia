@@ -39,7 +39,7 @@ class Course(models.Model):
     version = models.BigIntegerField()
     title = models.TextField(blank=False)
     description = models.TextField(blank=True, null=True, default=None)
-    shortname = models.CharField(max_length=20)
+    shortname = models.CharField(max_length=200)
     filename = models.CharField(max_length=200)
     badge_icon = models.FileField(upload_to="badges",blank=True, default=None)
     is_draft = models.BooleanField(default=False)
@@ -308,11 +308,11 @@ class Tracker(models.Model):
     user = models.ForeignKey(User)
     submitted_date = models.DateTimeField('date submitted',default=timezone.now)
     tracker_date = models.DateTimeField('date tracked',default=timezone.now)
-    ip = models.IPAddressField()
+    ip = models.GenericIPAddressField()
     agent = models.TextField(blank=True)
     digest = models.CharField(max_length=100)
     data = models.TextField(blank=True)
-    course = models.ForeignKey(Course,null=True, blank=True, default=None)
+    course = models.ForeignKey(Course,null=True, blank=True, default=None, on_delete=models.SET_NULL)
     type = models.CharField(max_length=10,null=True, blank=True, default=None)
     completed = models.BooleanField(default=False)
     time_taken = models.IntegerField(default=0)
@@ -353,15 +353,19 @@ class Tracker(models.Model):
            
     def get_activity_title(self, lang='en'):
         media = Media.objects.filter(digest=self.digest)
+        print media
         for m in media:
             return m.filename
         try:
-            titles = json.loads(self.activity_title)
-            if lang in titles:
-                return titles[lang]
-            else:
-                for l in titles:
-                    return titles[l]
+            activity = Activity.objects.filter(digest=self.digest)
+            for a in activity:
+                print a.title
+                titles = json.loads(a.title)
+                if lang in titles:
+                    return titles[lang]
+                else:
+                    for l in titles:
+                        return titles[l]
         except:
             pass
         return self.activity_title
@@ -446,7 +450,7 @@ class Cohort(models.Model):
     description = models.CharField(max_length=100)
     start_date = models.DateTimeField(default=timezone.now)
     end_date = models.DateTimeField(default=timezone.now)
-    schedule = models.ForeignKey(Schedule,null=True, blank=True, default=None)
+    schedule = models.ForeignKey(Schedule,null=True, blank=True, default=None, on_delete=models.SET_NULL)
     
     class Meta:
         verbose_name = _('Cohort')
@@ -596,7 +600,7 @@ class Points(models.Model):
         ('coursedownloaded', 'Course downloaded'),
     )
     user = models.ForeignKey(User)
-    course = models.ForeignKey(Course,null=True)
+    course = models.ForeignKey(Course,null=True, default=None, on_delete=models.SET_NULL)
     points = models.IntegerField()
     date = models.DateTimeField('date created',default=timezone.now)
     description = models.TextField(blank=False)

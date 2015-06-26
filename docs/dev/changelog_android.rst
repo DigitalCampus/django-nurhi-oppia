@@ -1,9 +1,24 @@
 OppiaMobile Android App Change Log
 ====================================
 
-v52 - not yet released
+
+v53 (5.2.0) - released 12 June 2015
+--------------------------------------------------
+
+* 427: App crashing when changing server setting - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/427
+* 433: Add Urdu lang file from Bright Future app - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/433
+* 435: Update Bugsense to Mint jar - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/435
+* 437: Why are quiz results showing as 0% even when user has scored more - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/437
+* 431: Activity tabs with long titles aren't shortening - so sometimes are unreadable - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/431
+* 436: On the course homepage, the activity titles are being shortened to only one line - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/436
+* 419: Remove dependency on ActionBarSherlock - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/419
+* 440: Replace the default activity icons with blank background - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/440
+* 449: Fail more cleanly when course files have been deleted from the sd card - https://github.com/DigitalCampus/oppia-mobile-android/issues/issue/449
+
+v52 (5.1.1) - released: 18 Mar 2015
 ---------------------------------------------------
 
+* temporary fix for sd card issues
 
 v51 (5.1.0) - released: 3 Mar 2015
 ---------------------------------------------------

@@ -1,7 +1,29 @@
 OppiaMobile Server Change Log
 ================================
 
-v0.7.3 - not yet released
+
+v0.7.6 - not yet released
+--------------------------
+
+* 237: Update tests and test data now that cohorts have been restructured - https://github.com/DigitalCampus/django-oppia/issues/issue/237
+* 244: How to suppress the UnreadablePostError emails - https://github.com/DigitalCampus/django-oppia/issues/issue/244
+
+v0.7.5 - released 3 Jun 2015
+-----------------------------
+
+* 241: Quizzes on course page are just showing 'quiz' as title - https://github.com/DigitalCampus/django-oppia/issues/issue/241
+* 242: Show better activity titles in points table - https://github.com/DigitalCampus/django-oppia/issues/issue/242
+
+v0.7.4 - released 31 May 2015
+------------------------------
+
+* 232: Check that users, quizzes, courses etc can be deleted without removing the points etc - https://github.com/DigitalCampus/django-oppia/issues/issue/232
+* 231: Increase course shortname length - https://github.com/DigitalCampus/django-oppia/issues/issue/231
+* 235: Update google graphs to cope with larger numbers on y axis - https://github.com/DigitalCampus/django-oppia/issues/issue/235
+* 226: Deprecation warning for Django 1.8 - https://github.com/DigitalCampus/django-oppia/issues/issue/226
+* 236: Add information on providing multilingual content - https://github.com/DigitalCampus/django-oppia/issues/issue/236
+
+v0.7.3 - released 15 May 2015
 -----------------------------
 * https://github.com/DigitalCampus/django-oppia/issues/issue/224 - view for cohort activity 
 * 230: Prevent staff users getting points even for quiz attempts - https://github.com/DigitalCampus/django-oppia/issues/issue/230
