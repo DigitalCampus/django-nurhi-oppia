@@ -9,7 +9,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 2.0.6\n"
+"Language: en\n"
 
 #: forms.py:19
 #, python-format
@@ -20,221 +21,120 @@ msgstr ""
 msgid "Please select a file to upload"
 msgstr ""
 
-#: forms.py:23
+#: forms.py:23 forms.py:53
 msgid "A comma separated list of tags to help classify your course"
 msgstr ""
 
-#: forms.py:25
+#: forms.py:25 forms.py:55
 msgid "Please enter at least one tag"
 msgstr ""
 
-#: forms.py:27
+#: forms.py:27 forms.py:57
 msgid "Whether this course is only a draft"
 msgstr ""
 
-#: forms.py:42 templates/base.html:44
+#: forms.py:42 templates/base.html:44 models.py:248 models.py:249
+#: templates/oppia/mobile/monitor/media.html:19 forms.py:33
 msgid "Upload"
 msgstr ""
 
-#: forms.py:53
+#: forms.py:53 forms.py:44
 #, python-format
-msgid "Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc."
+msgid ""
+"Your file is larger than the maximum allowed (%(size)d Mb). You may want to "
+"check your course for large includes, such as images etc."
 msgstr ""
 
-#: forms.py:56
+#: forms.py:56 forms.py:47
 msgid "You may only upload a zip file"
 msgstr ""
 
 #: forms.py:101 forms.py:102 forms.py:121 forms.py:125 forms.py:165
-#: forms.py:169
+#: forms.py:169 forms.py:116 forms.py:117 forms.py:136 forms.py:140
+#: forms.py:180 forms.py:184
 msgid "Please enter a valid date"
 msgstr ""
 
-#: forms.py:112 forms.py:133 forms.py:179
+#: forms.py:112 forms.py:133 forms.py:179 forms.py:127 forms.py:148
+#: forms.py:194
 msgid "Go"
 msgstr ""
 
-#: forms.py:120 forms.py:164
+#: forms.py:120 forms.py:164 forms.py:135 forms.py:179
 msgid "Please enter a start date"
 msgstr ""
 
-#: forms.py:124 forms.py:168
+#: forms.py:124 forms.py:168 forms.py:139 forms.py:183
 msgid "Please enter an end date"
 msgstr ""
 
-#: forms.py:161
+#: forms.py:161 forms.py:176
 msgid "days"
 msgstr ""
 
-#: forms.py:161
+#: forms.py:161 forms.py:176
 msgid "months"
 msgstr ""
 
-#: models.py:48 templates/oppia/viz/summary.html:219
+#: models.py:48 templates/oppia/viz/summary.html:219 models.py:39
 msgid "Course"
 msgstr ""
 
-#: models.py:49 templates/base.html:43
+#: models.py:49 templates/base.html:43 models.py:40
 msgid "Courses"
 msgstr ""
 
-#: models.py:135
+#: models.py:135 models.py:130
 msgid "Tag"
 msgstr ""
 
-#: models.py:136
+#: models.py:136 models.py:131
 msgid "Tags"
 msgstr ""
 
-#: models.py:146
+#: models.py:146 models.py:141
 msgid "Course Tag"
 msgstr ""
 
-#: models.py:147
+#: models.py:147 models.py:142
 msgid "Course Tags"
 msgstr ""
 
-#: models.py:158 templates/oppia/schedule-form.html:7
+#: models.py:158 templates/oppia/schedule-form.html:7 models.py:153
 msgid "Schedule"
 msgstr ""
 
-#: models.py:159
+#: models.py:159 models.py:154
 msgid "Schedules"
 msgstr ""
 
-#: models.py:185
+#: models.py:185 models.py:180
 msgid "ActivitySchedule"
 msgstr ""
 
-#: models.py:186
+#: models.py:186 models.py:181
 msgid "ActivitySchedules"
 msgstr ""
 
-#: models.py:194
+#: models.py:194 models.py:189
 msgid "Section"
 msgstr ""
 
-#: models.py:195
+#: models.py:195 models.py:190
 msgid "Sections"
 msgstr ""
 
-#: models.py:224
+#: models.py:224 models.py:226
 msgid "Activity"
 msgstr ""
 
-#: models.py:225
+#: models.py:225 models.py:227
 msgid "Activities"
 msgstr ""
 
-#: models.py:248 models.py:249 templates/oppia/mobile/monitor/media.html:19
-#: forms.py:33 templates/base.html:44
-msgid "Upload"
-msgstr ""
-
-#: forms.py:44
-#, python-format
-msgid "Your file is larger than the maximum allowed (%(size)d Mb). You may want to check your course for large includes, such as images etc."
-msgstr ""
-
-#: forms.py:47
-msgid "You may only upload a zip file"
-msgstr ""
-
-#: forms.py:53
-msgid "A comma separated list of tags to help classify your course"
-msgstr ""
-
-#: forms.py:55
-msgid "Please enter at least one tag"
-msgstr ""
-
-#: forms.py:57
-msgid "Whether this course is only a draft"
-msgstr ""
-
-#: forms.py:70 profile/forms.py:232 profile/forms.py:249
+#: forms.py:70 profile/forms.py:232 profile/forms.py:249 profile/forms.py:299
+#: profile/forms.py:325
 msgid "Save"
-msgstr ""
-
-#: forms.py:116 forms.py:117 forms.py:136 forms.py:140 forms.py:180
-#: forms.py:184
-msgid "Please enter a valid date"
-msgstr ""
-
-#: forms.py:127 forms.py:148 forms.py:194
-msgid "Go"
-msgstr ""
-
-#: forms.py:135 forms.py:179
-msgid "Please enter a start date"
-msgstr ""
-
-#: forms.py:139 forms.py:183
-msgid "Please enter an end date"
-msgstr ""
-
-#: forms.py:176
-msgid "days"
-msgstr ""
-
-#: forms.py:176
-msgid "months"
-msgstr ""
-
-#: models.py:39 templates/oppia/viz/summary.html:219
-msgid "Course"
-msgstr ""
-
-#: models.py:40 templates/base.html:43
-msgid "Courses"
-msgstr ""
-
-#: models.py:130
-msgid "Tag"
-msgstr ""
-
-#: models.py:131
-msgid "Tags"
-msgstr ""
-
-#: models.py:141
-msgid "Course Tag"
-msgstr ""
-
-#: models.py:142
-msgid "Course Tags"
-msgstr ""
-
-#: models.py:153 templates/oppia/schedule-form.html:7
-msgid "Schedule"
-msgstr ""
-
-#: models.py:154
-msgid "Schedules"
-msgstr ""
-
-#: models.py:180
-msgid "ActivitySchedule"
-msgstr ""
-
-#: models.py:181
-msgid "ActivitySchedules"
-msgstr ""
-
-#: models.py:189
-msgid "Section"
-msgstr ""
-
-#: models.py:190
-msgid "Sections"
-msgstr ""
-
-#: models.py:226
-msgid "Activity"
-msgstr ""
-
-#: models.py:227
-msgid "Activities"
 msgstr ""
 
 #: models.py:283 models.py:284 templates/oppia/mobile/monitor/media.html:19
@@ -243,92 +143,48 @@ msgstr ""
 msgid "Media"
 msgstr ""
 
-#: models.py:272
-msgid "Tracker"
-msgstr ""
-
-#: models.py:273
-msgid "Trackers"
-msgstr ""
-
-#: models.py:401
-msgid "CourseDownload"
-msgstr ""
-
-#: models.py:402
-msgid "CourseDownloads"
-msgstr ""
-
-#: models.py:412
-msgid "Cohort"
-msgstr ""
-
-#: models.py:413
-msgid "Cohorts"
-msgstr ""
-
-#: models.py:467
-msgid "Participant"
-msgstr ""
-
-#: models.py:468
-msgid "Participants"
-msgstr ""
-
-#: models.py:480
-msgid "Message"
-msgstr ""
-
-#: models.py:481
-msgid "Messages"
-msgstr ""
-
-#: models.py:492
-msgid "Badge"
-msgstr ""
-
-#: models.py:493 templates/oppia/leaderboard.html:16
+#: models.py:272 models.py:493 templates/oppia/leaderboard.html:16
 #: models.py:307
 msgid "Tracker"
 msgstr ""
 
-#: models.py:308
+#: models.py:273 models.py:308
 msgid "Trackers"
 msgstr ""
 
-#: models.py:436
+#: models.py:401 models.py:436
 msgid "CourseDownload"
 msgstr ""
 
-#: models.py:437
+#: models.py:402 models.py:437
 msgid "CourseDownloads"
 msgstr ""
 
-#: models.py:447
+#: models.py:412 models.py:447
 msgid "Cohort"
 msgstr ""
 
-#: models.py:448
+#: models.py:413 models.py:448
 msgid "Cohorts"
 msgstr ""
 
-#: models.py:502
+#: models.py:467 models.py:502
 msgid "Participant"
 msgstr ""
 
-#: models.py:503
+#: models.py:468 models.py:503
 msgid "Participants"
 msgstr ""
 
-#: models.py:515
+#: models.py:480 models.py:515
 msgid "Message"
 msgstr ""
 
-#: models.py:516
+#: models.py:481 models.py:516
 msgid "Messages"
 msgstr ""
 
-#: models.py:527
+#: models.py:492 models.py:527
 msgid "Badge"
 msgstr ""
 
@@ -337,20 +193,12 @@ msgstr ""
 msgid "Badges"
 msgstr ""
 
-#: models.py:505
+#: models.py:505 models.py:559 models.py:560
+#: templates/oppia/leaderboard.html:15 models.py:540
 msgid "Award"
 msgstr ""
 
-#: models.py:506
-msgid "Awards"
-msgstr ""
-
-#: models.py:559 models.py:560 templates/oppia/leaderboard.html:15
-#: models.py:540
-msgid "Award"
-msgstr ""
-
-#: models.py:541
+#: models.py:506 models.py:541
 msgid "Awards"
 msgstr ""
 
@@ -383,8 +231,7 @@ msgstr ""
 msgid "Upload Course"
 msgstr ""
 
-#: views.py:590
-#: views.py:156
+#: views.py:590 views.py:156
 msgid "Upload Course - step 1"
 msgstr ""
 
@@ -397,14 +244,12 @@ msgstr ""
 msgid "Activity Detail"
 msgstr "Activity detail"
 
-#: views.py:592
-#: views.py:614
+#: views.py:592 views.py:614
 #, fuzzy
 msgid "Course Quizzes"
 msgstr "Quizzes"
 
-#: views.py:594
-#: views.py:616
+#: views.py:594 views.py:616
 #, fuzzy
 msgid "Course Feedback"
 msgstr "Feedback"
@@ -425,20 +270,17 @@ msgstr ""
 msgid "Registration is disabled on this server."
 msgstr ""
 
-#: api/resources.py:162 api/resources.py:283
-#: api/resources.py:154
+#: api/resources.py:162 api/resources.py:283 api/resources.py:154
 #, python-format
 msgid "Please enter your %s"
 msgstr ""
 
-#: api/resources.py:230
-#: api/resources.py:204
+#: api/resources.py:230 api/resources.py:204
 #, python-format
 msgid "Username \"%s\" already in use, please select another"
 msgstr ""
 
-#: api/resources.py:306
-#: api/resources.py:249
+#: api/resources.py:306 api/resources.py:249
 msgid "Please enter your username or email address"
 msgstr ""
 
@@ -447,11 +289,13 @@ msgid "Username/email not found"
 msgstr ""
 
 #: api/resources.py:276
-msgid "An email has been sent to your registered email address with your new password"
+msgid ""
+"An email has been sent to your registered email address with your new "
+"password"
 msgstr ""
 
 #: profile/forms.py:19 profile/forms.py:54 profile/forms.py:182
-#: profile/forms.py:19 profile/forms.py:56
+#: profile/forms.py:56
 msgid "Please enter a username."
 msgstr ""
 
@@ -473,8 +317,8 @@ msgstr "forgot password?"
 msgid "Invalid username or password. Please try again."
 msgstr ""
 
-#: profile/forms.py:56 profile/forms.py:214
-#: profile/forms.py:58 profile/forms.py:170
+#: profile/forms.py:56 profile/forms.py:214 profile/forms.py:58
+#: profile/forms.py:170
 msgid "Please enter a valid e-mail address."
 msgstr ""
 
@@ -580,33 +424,22 @@ msgstr ""
 
 #: profile/forms.py:150 profile/views.py:86 templates/includes/header.html:29
 #: profile/forms.py:101 profile/views.py:79
-#: templates/includes/header-preview.html:21 templates/includes/header.html:29
+#: templates/includes/header-preview.html:21
 #, fuzzy
 msgid "Register"
 msgstr "Register"
 
-#: profile/forms.py:165
-msgid "Username has already been registered, please select another."
-msgstr ""
-
-#: profile/forms.py:170
-msgid "Email has already been registered"
-msgstr ""
-
-#: profile/forms.py:175 profile/forms.py:345
-msgid "Passwords do not match."
-msgstr ""
-
-#: profile/forms.py:195 profile/views.py:110
+#: profile/forms.py:165 profile/forms.py:195 profile/views.py:110
 #: profile/forms.py:116
 msgid "Username has already been registered, please select another."
 msgstr ""
 
-#: profile/forms.py:121
+#: profile/forms.py:170 profile/forms.py:121
 msgid "Email has already been registered"
 msgstr ""
 
-#: profile/forms.py:126 profile/forms.py:269
+#: profile/forms.py:175 profile/forms.py:345 profile/forms.py:126
+#: profile/forms.py:269
 msgid "Passwords do not match."
 msgstr ""
 
@@ -623,44 +456,24 @@ msgstr "Reset password"
 msgid "Username not found"
 msgstr ""
 
-#: profile/forms.py:210
-msgid "You cannot edit your API Key."
-msgstr ""
-
-#: profile/forms.py:212
-msgid "You cannot edit your username."
-msgstr ""
-
-#: profile/forms.py:219
-msgid "Your new password should be at least 6 characters long"
-msgstr ""
-
-#: profile/forms.py:270
-msgid "Photo"
-msgstr ""
-
-#: profile/forms.py:274
-msgid "Update your gravatar"
-msgstr ""
-
-#: profile/forms.py:294 profile/forms.py:320
+#: profile/forms.py:210 profile/forms.py:294 profile/forms.py:320
 #: profile/forms.py:166
 msgid "You cannot edit your API Key."
 msgstr ""
 
-#: profile/forms.py:168
+#: profile/forms.py:212 profile/forms.py:168
 msgid "You cannot edit your username."
 msgstr ""
 
-#: profile/forms.py:175
+#: profile/forms.py:219 profile/forms.py:175
 msgid "Your new password should be at least 6 characters long"
 msgstr ""
 
-#: profile/forms.py:210
+#: profile/forms.py:270 profile/forms.py:210
 msgid "Photo"
 msgstr ""
 
-#: profile/forms.py:214
+#: profile/forms.py:274 profile/forms.py:214
 msgid "Update your gravatar"
 msgstr ""
 
@@ -669,24 +482,11 @@ msgstr ""
 msgid "Change password"
 msgstr "forgot password?"
 
-#: profile/forms.py:299 profile/forms.py:325
-msgid "Save"
-msgstr ""
-
-#: profile/forms.py:338
+#: profile/forms.py:338 profile/views.py:160 profile/forms.py:262
 msgid "Email address already in use"
 msgstr ""
 
-#: profile/views.py:153
-msgid "Profile updated"
-msgstr ""
-
-#: profile/views.py:160
-#: profile/forms.py:262
-msgid "Email address already in use"
-msgstr ""
-
-#: profile/views.py:133
+#: profile/views.py:153 profile/views.py:133
 msgid "Profile updated"
 msgstr ""
 
@@ -814,7 +614,8 @@ msgstr "Server error"
 #: templates/500.html:5
 msgid ""
 "\n"
-"<p>An error has occurred. A message has been sent to the server administrator.</p>\n"
+"<p>An error has occurred. A message has been sent to the server "
+"administrator.</p>\n"
 msgstr ""
 
 #: templates/base-mobile.html:5 templates/base-preview.html:5
@@ -923,9 +724,15 @@ msgstr ""
 msgid ""
 " \n"
 "\t<div style=\"width:60%%;margin:auto; text-align:center\">\n"
-"\t<p>NURHI Training is the mobile learning platform from <a href=\"http://digital-campus.org\">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can\n"
-"\tbe accessed and used even when you don't have an internet connection available on your mobile.</p>\n"
-"\t<p>To get started with our courses, <a href=\"https://play.google.com/store/apps/details?id=org.nurhi.oppia\">download the NURHI training app</a>. \n"
+"\t<p>NURHI Training is the mobile learning platform from <a href=\"http://"
+"digital-campus.org\">Digital Campus</a> to deliver learning content, "
+"multimedia and quizzes on your smartphone. All the content and activities "
+"can\n"
+"\tbe accessed and used even when you don't have an internet connection "
+"available on your mobile.</p>\n"
+"\t<p>To get started with our courses, <a href=\"https://play.google.com/"
+"store/apps/details?id=org.nurhi.oppia\">download the NURHI training app</"
+"a>. \n"
 "\t</div>\n"
 "\t"
 msgstr ""
@@ -997,7 +804,9 @@ msgstr "Terms and License"
 #, python-format
 msgid ""
 "\n"
-"<p>OppiaMobile is a work in progress and is provided as-is. Not everything may work 100%%, so if you find anything wrong, then <a href=\"mailto:%(email)s\">please let us know</a>.</p>\n"
+"<p>OppiaMobile is a work in progress and is provided as-is. Not everything "
+"may work 100%%, so if you find anything wrong, then <a href=\"mailto:"
+"%(email)s\">please let us know</a>.</p>\n"
 "\n"
 "<h3>License</h3>\n"
 "<p>OppiaMobile is free software: you can redistribute it and/or modify\n"
@@ -1011,9 +820,12 @@ msgid ""
 "GNU General Public License for more details.</p>\n"
 "\n"
 "<p>You should have received a copy of the GNU General Public License\n"
-"along with OppiaMobile.  If not, see <a href=\"http://www.gnu.org/licenses/\">http://www.gnu.org/licenses/</a>.</p>\n"
+"along with OppiaMobile.  If not, see <a href=\"http://www.gnu.org/licenses/"
+"\">http://www.gnu.org/licenses/</a>.</p>\n"
 "\n"
-"<p>OppiaMobile server uses <a href=\"http://getbootstrap.com/\">Bootstrap v3</a> which is released under the <a href=\"http://getbootstrap.com/getting-started/#license-faqs\">MIT license and is copyright 2014 Twitter</a>.</p>\n"
+"<p>OppiaMobile server uses <a href=\"http://getbootstrap.com/\">Bootstrap "
+"v3</a> which is released under the <a href=\"http://getbootstrap.com/getting-"
+"started/#license-faqs\">MIT license and is copyright 2014 Twitter</a>.</p>\n"
 msgstr ""
 
 #: templates/oppia/thanks.html:4 templates/oppia/profile/register.html:6
@@ -1022,7 +834,9 @@ msgstr "Register"
 
 #: templates/oppia/thanks.html:6
 #, python-format
-msgid "Thanks for registering. You are now logged in. <a href=\"%(url_home)s\">Return to the homepage</a>"
+msgid ""
+"Thanks for registering. You are now logged in. <a href=\"%(url_home)s"
+"\">Return to the homepage</a>"
 msgstr ""
 
 #: templates/oppia/upload-staff-only.html:4
@@ -1034,8 +848,10 @@ msgstr "Upload course"
 #, python-format
 msgid ""
 "\n"
-" <p>Sorry, only users with the staff/teacher status are able to upload courses.</p>\n"
-" <p>To request permission to upload your course, please <a href=\"mailto:%(email)s\">contact the administrator</a>. </p>\n"
+" <p>Sorry, only users with the staff/teacher status are able to upload "
+"courses.</p>\n"
+" <p>To request permission to upload your course, please <a href=\"mailto:"
+"%(email)s\">contact the administrator</a>. </p>\n"
 msgstr ""
 
 #: templates/oppia/upload-success.html:6
@@ -1051,8 +867,7 @@ msgstr ""
 #: templates/oppia/course/feedback.html:7
 #: templates/oppia/course/quiz-attempts.html:25
 #: templates/oppia/course/quizzes.html:7
-#: templates/oppia/course/schedules.html:8
-#: templates/oppia/preview/home.html:26
+#: templates/oppia/course/schedules.html:8 templates/oppia/preview/home.html:26
 msgid "Tags:"
 msgstr ""
 
@@ -1081,27 +896,18 @@ msgid "table_header_tracker_timetaken"
 msgstr "Time Taken"
 
 #: templates/oppia/course/activity-detail.html:45
-msgid "table_header_tracker_lang"
-msgstr "Lang"
-
-#: templates/oppia/course/activity-detail.html:77
-msgid "Name"
-msgstr ""
-
-#: templates/oppia/course/activity-detail.html:78
-msgid "Value"
-msgstr ""
-
 #: templates/oppia/course/activity-detail.html:101
 #: templates/oppia/profile/user-activity.html:44
 msgid "table_header_tracker_lang"
 msgstr "Lang"
 
+#: templates/oppia/course/activity-detail.html:77
 #: templates/oppia/course/activity-detail.html:80
 #: templates/oppia/profile/user-activity.html:72
 msgid "Name"
 msgstr ""
 
+#: templates/oppia/course/activity-detail.html:78
 #: templates/oppia/course/activity-detail.html:81
 #: templates/oppia/profile/user-activity.html:73
 msgid "Value"
@@ -1185,7 +991,8 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"\t\t<p>You don't yet have any courses uploaded, why not <a href=\"%(url_upload)s\">upload one now</a>?</p>\n"
+"\t\t<p>You don't yet have any courses uploaded, why not <a href="
+"\"%(url_upload)s\">upload one now</a>?</p>\n"
 "\t"
 msgstr ""
 
@@ -1522,6 +1329,22 @@ msgstr ""
 #: viz/views.py:59 viz/views.py:77 viz/views.py:114
 msgid "Other"
 msgstr ""
+
+msgid "ffmpeg_missing"
+msgstr ""
+"The command line \"ffmpeg\" is missing, or is not accessible in $PATH. "
+"Please install it."
+
+msgid "url_download_fail"
+msgstr "Download failed. Are you sure it is a correct URL?"
+
+msgid "get_length_error"
+msgstr ""
+"Failed to get file length. Are you sure that the URL is correct and that it "
+"contains a video file?"
+
+#~ msgid "menu_home"
+#~ msgstr "Home"
 
 #~ msgid "Welcome"
 #~ msgstr "Welcome"

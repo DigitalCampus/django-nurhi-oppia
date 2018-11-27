@@ -5,7 +5,7 @@ Installation
 
 To install and run the OppiaMobile server, you will need to be familiar with how
 to set up, install and maintain Django applications. To learn how to get started 
-with Django, visit http://gettingstartedwithdjango.com/.
+with Django, visit http://www.gettingstartedwithdjango.com/.
 
 
 * Create a virtual environment for python. We recommend that 
@@ -14,7 +14,7 @@ with Django, visit http://gettingstartedwithdjango.com/.
   
 * Create a fork of the `django-oppia <https://github.com/DigitalCampus/django-oppia>`_ 
   repository on Github and check this out to your server. For more information 
-  on how to fork a repository in GitHub, see: https://github.com/DigitalCampus/django-oppia/
+  on how to fork a repository in GitHub, see: https://help.github.com/articles/fork-a-repo/
 
 * Run ``python setup.py develop`` to install the dependencies
 
@@ -29,24 +29,24 @@ with Django, visit http://gettingstartedwithdjango.com/.
     * Add::
     
     	import os,sys
-		BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-		PROJECT_PATH = os.path.normpath(os.path.join(BASE_DIR, '..', 'django-oppia'))
-		if PROJECT_PATH not in sys.path:
-		    sys.path.insert(0, PROJECT_PATH)
+	BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+	PROJECT_PATH = os.path.normpath(os.path.join(BASE_DIR, '..', 'django-oppia'))
+	if PROJECT_PATH not in sys.path:
+		sys.path.insert(0, PROJECT_PATH)
     
       replacing `django-oppia` with the name of your fork in github and 
       referencing the location on your server where you have cloned the repository
     
     * Add the following code::
 	
-		from oppia import local_settings
-		local_settings.modify(globals())
+		from oppia import local_settings_live
+		local_settings_live.modify(globals())
 		
     * Ensure you have the following standard Django settings configured:
 	
-		* `LOGIN_REDIRECT_URL <https://docs.djangoproject.com/en/1.5/ref/settings/#login-redirect-url>`_
-		* `SERVER_EMAIL <https://docs.djangoproject.com/en/1.5/ref/settings/#login-url>`_
-		* `LOGIN_URL <https://docs.djangoproject.com/en/1.5/ref/settings/#std:setting-SERVER_EMAIL>`_
+		* `LOGIN_REDIRECT_URL <https://docs.djangoproject.com/en/1.11/ref/settings/#login-redirect-url>`_
+		* `SERVER_EMAIL <https://docs.djangoproject.com/en/1.11/ref/settings/#server-email>`_
+		* `LOGIN_URL <https://docs.djangoproject.com/en/1.11/ref/settings/#login-url>`_
 		
     * Add a new setting ``COURSE_UPLOAD_DIR``, this should a read/writable 
 	  directory by your webserver user, for example::
@@ -88,10 +88,12 @@ with Django, visit http://gettingstartedwithdjango.com/.
   us a pull request to integrate into the core server code so everyone can 
   benefit. If you find an issue, but aren't sure how to fix it, then please 
   `file an issue on Github <https://github.com/DigitalCampus/django-oppia/issues>`_
-  
+
+.. _installcron:  
+
 Cron
 ---------
-.. _installcron:
+
 
 You should set up a `cron <https://en.wikipedia.org/wiki/Cron>`_ task to run the
 ``oppia/cron.py`` script regularly. This script tidies up the course download 
@@ -99,21 +101,21 @@ directory of temporary download files and also checks which course badges
 should be awarded.
 
 * Exactly how you call ``cron.py`` will depend on your environment, but as 
-  an example on my development server (and using virtualenv) I use a 
+  an example on our development server (and using virtualenv) we use a 
   wrapper shell script with the following content::
 
 	#!/bin/bash
 
-	cd /home/alex/data/development/oppia_core/env/ # <- path to my virtualenv
+	cd /home/alex/data/development/oppia_core/env/ # <- path to virtualenv
 	source bin/activate # <- activate the virtualenv
 	
-	PYTHONPATH="${PYTHONPATH}:/home/alex/data/development/" # <- path to my Django project root
+	PYTHONPATH="${PYTHONPATH}:/home/alex/data/development/" # <- path to Django project root
 
 	export PYTHONPATH
-	export DJANGO_SETTINGS_MODULE=oppia_core.settings # <- my main Django settings (relative to the Django project path)
+	export DJANGO_SETTINGS_MODULE=oppia_core.settings # <- main Django settings (relative to the Django project path)
 
 	python /home/alex/data/development/django-oppia/oppia/cron.py # <- full path to the cron.py file 
 	
 * This script handles activating the virtualenv correctly and ensuring all 
-  the Django modules/apps can be accessed. I then have my cron call this 
+  the Django modules/apps can be accessed. We then have my cron call this 
   wrapper script every 2 hours.
