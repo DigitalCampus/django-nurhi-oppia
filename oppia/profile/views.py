@@ -106,29 +106,12 @@ def register(request):
             user.last_name = last_name
             user.save()
             
-            phoneno = form.cleaned_data.get("phoneno")
-            currently_working_facility = form.cleaned_data.get("currently_working_facility")
-            staff_type = form.cleaned_data.get("staff_type")
-            nurhi_sponsor_training = form.cleaned_data.get("nurhi_sponsor_training")
-            fp_methods_provided = form.cleaned_data.get("fp_methods_provided")
-            highest_education_level = form.cleaned_data.get("highest_education_level")
-            religion = form.cleaned_data.get("religion")
-            sex = form.cleaned_data.get("sex")
-            age = form.cleaned_data.get("age")
-            
             user_profile = UserProfile()
             user_profile.user = user
-            user_profile.phoneno = phoneno
-            user_profile.currently_working_facility = currently_working_facility
-            user_profile.staff_type = staff_type
-            user_profile.nurhi_sponsor_training = nurhi_sponsor_training
-            user_profile.fp_methods_provided = fp_methods_provided
-            user_profile.highest_education_level = highest_education_level
-            user_profile.religion = religion
-            user_profile.sex = sex
-            user_profile.age = age
-            user_profile.job_title = form.cleaned_data.get("job_title")
-            user_profile.organisation = form.cleaned_data.get("organisation")
+            user_profile.sex = form.cleaned_data.get("sex")
+            user_profile.age_range =  form.cleaned_data.get("age_range")
+            user_profile.role =  form.cleaned_data.get("role")
+            user_profile.location = form.cleaned_data.get("location")
             user_profile.save()
 
             u = authenticate(username=username, password=password)
@@ -186,6 +169,7 @@ def edit(request, user_id=0):
     key = ApiKey.objects.get(user=view_user)
     if request.method == 'POST':
         form = ProfileForm(request.POST)
+        build_form_options(form)
         if form.is_valid():
             # update basic data
             email = form.cleaned_data.get("email")
@@ -197,31 +181,16 @@ def edit(request, user_id=0):
             view_user.last_name = last_name
             view_user.save()
             
-            phoneno = form.cleaned_data.get("phoneno")
-            currently_working_facility = form.cleaned_data.get("currently_working_facility")
-            staff_type = form.cleaned_data.get("staff_type")
-            nurhi_sponsor_training = form.cleaned_data.get("nurhi_sponsor_training")
-            fp_methods_provided = form.cleaned_data.get("fp_methods_provided")
-            highest_education_level = form.cleaned_data.get("highest_education_level")
-            religion = form.cleaned_data.get("religion")
-            sex = form.cleaned_data.get("sex")
-            age = form.cleaned_data.get("age")
-            
             try:
                 user_profile = UserProfile.objects.get(user=view_user)
             except UserProfile.DoesNotExist:
                 user_profile = UserProfile()
                 user_profile.user = view_user
                 
-            user_profile.phoneno = phoneno
-            user_profile.currently_working_facility = currently_working_facility
-            user_profile.staff_type = staff_type
-            user_profile.nurhi_sponsor_training = nurhi_sponsor_training
-            user_profile.fp_methods_provided = fp_methods_provided
-            user_profile.highest_education_level = highest_education_level
-            user_profile.religion = religion
-            user_profile.sex = sex
-            user_profile.age = age
+            user_profile.sex = form.cleaned_data.get("sex")
+            user_profile.age_range =  form.cleaned_data.get("age_range")
+            user_profile.role =  form.cleaned_data.get("role")
+            user_profile.location = form.cleaned_data.get("location")
             user_profile.save()
             
             messages.success(request, _(u"Profile updated"))
@@ -242,16 +211,12 @@ def edit(request, user_id=0):
                                     'email':view_user.email,
                                     'first_name':view_user.first_name,
                                     'last_name':view_user.last_name,
-                                    'phoneno':user_profile.phoneno,
-                                    'currently_working_facility':user_profile.currently_working_facility,
-                                    'staff_type':user_profile.staff_type,
-                                    'nurhi_sponsor_training':user_profile.nurhi_sponsor_training,
-                                    'fp_methods_provided':user_profile.fp_methods_provided,
-                                    'highest_education_level':user_profile.highest_education_level,
-                                    'religion':user_profile.religion,
-                                    'sex':user_profile.sex,
-                                    'age':user_profile.age, 
+                                    'sex': user_profile.sex,
+                                    'age_range': user_profile.age_range,
+                                    'role': user_profile.role,
+                                    'location': user_profile.location, 
                                     'api_key': key.key})
+        build_form_options(form)
         
     return render(request, 'oppia/profile/profile.html', {'form': form,})
 
@@ -723,3 +688,25 @@ def delete_account_view(request):
 def delete_account_complete_view(request):
 
     return render(request, 'oppia/profile/delete_account_complete.html')
+
+
+# Helper Methods
+
+def build_form_options(form):
+
+    form.fields['age_range'].choices = []
+    form.fields['sex'].choices = []
+    form.fields['role'].choices = []
+     
+    # age range
+    for x, y in UserProfile.AGE_RANGE:
+        form.fields['age_range'].choices.append((x, y))
+
+    # gender
+    for x, y in UserProfile.GENDER:
+        form.fields['sex'].choices.append((x, y))
+        
+    # role
+    for x, y in UserProfile.ROLE:
+        form.fields['role'].choices.append((x, y))
+    return

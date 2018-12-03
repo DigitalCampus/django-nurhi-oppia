@@ -13,6 +13,7 @@ from django.core.validators import validate_email
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+from models import UserProfile
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=30,
@@ -83,55 +84,30 @@ class RegisterForm(forms.Form):
                                                     u'Your last name should be at least 2 characters long.')},
                                 min_length=2,
                                 required=True)
-    currently_working_facility = forms.CharField(max_length=100,
-                                error_messages={'required': _(u'Please enter your current working facility.'),
-                                                'min_length': _(u'Your current working facility should be at least 2 characters long.')},
-                                min_length=2,
-                                required=False)
-    staff_type = forms.CharField(max_length=100,
-                                error_messages={'required': _(u'Please enter staff type.'),
-                                                'min_length': _(u'Your staff type should be at least 2 characters long.')},
-                                min_length=2,
-                                required=False)
-    nurhi_sponsor_training = forms.CharField(max_length=100,
-                                error_messages={'required': _(u'Please enter Nurhi sponsor training.'),
-                                                'min_length': _(u'Your Nurhi sponsor training should be at least 2 characters long.')},
-                                min_length=1,
-                                required=False)
-    fp_methods_provided = forms.CharField(max_length=1000,
-                                error_messages={'required': _(u'Please enter the family planning methods provided at your facility.'),},
-                                required=False)
-    highest_education_level = forms.CharField(max_length=100,
-                                error_messages={'required': _(u'Please enter your highest education level.'),
-                                                'min_length': _(u'Your highest education level should be at least 2 characters long.')},
-                                min_length=1,
-                                required=False)
-             
-    phoneno = forms.CharField(max_length=100,
-                                error_messages={'required': _(u'Please enter your contact number.'),
-                                                'min_length': _(u'Your contact number should be at least 2 characters long.')},
-                                min_length=2,
-                                required=False)
-   
-    religion = forms.CharField(max_length=100,
-                                error_messages={'required': _(u'Please enter your religion.'),
-                                                'min_length': _(u'Your religion name should be at least 2 characters long.')},
-                                min_length=2,
-                                required=False)
-    sex = forms.CharField(max_length=100,
-                                error_messages={'required': _(u'Please enter your sex.'),
-                                                'min_length': _(u'Your gender should be at least 1 characters long.')},
-                                min_length=1,
-                                required=False)
-    age = forms.CharField(max_length=100,
-                                error_messages={'required': _(u'Please enter your age.'),
-                                                'min_length': _(u'Your age should be at least 1 characters long.')},
-                                min_length=1,
-                                required=False)
 
+    sex = forms.ChoiceField(error_messages={'required': _(u'Please select your gender.')},
+                                required=True,
+                                label=_(u'Gender'))
+    age_range = forms.ChoiceField(error_messages={'required': _(u'Please select your age range.')},
+                                required=True,
+                                label=_(u'Age range'))
+    role = forms.ChoiceField(error_messages={'required': _(u'Please select your role.')},
+                                required=True,
+                                label=_(u'Role'))
+    location = forms.CharField(max_length=100,
+                                error_messages={'required': _(u'Please enter your location/state.')},
+                                min_length=1,
+                                required=True,
+                                label=_(u'Location/State'))
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__( * args, ** kwargs)
+        
+        blank_options = [('0', '--')]
+        self.fields['role'].choices = blank_options + UserProfile.ROLE
+        self.fields['age_range'].choices = blank_options + UserProfile.AGE_RANGE
+        self.fields['sex'].choices = blank_options + UserProfile.GENDER
+        
         self.helper = FormHelper()
         self.helper.form_action = reverse('profile_register')
         self.helper.form_class = 'form-horizontal'
@@ -144,15 +120,10 @@ class RegisterForm(forms.Form):
                                     'password_again',
                                     'first_name',
                                     'last_name',
-                                    'phoneno',
-                                    'currently_working_facility',
-                                    'staff_type',
-                                    'nurhi_sponsor_training',
-                                    'fp_methods_provided',
-                                    'highest_education_level',
-                                    'religion',
                                     'sex',
-                                    'age',
+                                    'age_range',
+                                    'role',
+                                    'location',
                                 Div(
                                    Submit('submit', _(u'Register'), css_class='btn btn-default'),
                                    css_class='col-lg-offset-2 col-lg-4',
@@ -240,26 +211,26 @@ class ProfileForm(forms.Form):
     last_name = forms.CharField(max_length=100,
                                 min_length=2,
                                 required=True)
-    phoneno = forms.CharField(widget = forms.TextInput(),
-                               required=False)
-    currently_working_facility = forms.CharField(widget = forms.TextInput(),
-                               required=False)
-    staff_type = forms.CharField(widget = forms.TextInput(),
-                               required=False)
-    nurhi_sponsor_training = forms.CharField(widget = forms.TextInput(),
-                               required=False)
-    fp_methods_provided = forms.CharField(widget = forms.TextInput(),
-                               required=False)
-    highest_education_level = forms.CharField(widget = forms.TextInput(),
-                               required=False)
-    religion = forms.CharField(widget = forms.TextInput(),
-                               required=False)
-    sex = forms.CharField(widget = forms.TextInput(),
-                               required=False)
-    age = forms.CharField(widget = forms.TextInput(),
-                               required=False)
+    sex = forms.ChoiceField(error_messages={'required': _(u'Please select your gender.')},
+                                required=True,
+                                label=_(u'Gender'),
+                                widget=forms.Select)
+    age_range = forms.ChoiceField(error_messages={'required': _(u'Please select your age range.')},
+                                required=True,
+                                label=_(u'Age range'),
+                                widget=forms.Select,)
+    role = forms.ChoiceField(error_messages={'required': _(u'Please select your role.')},
+                                required=True,
+                                label=_(u'Role'),
+                                widget=forms.Select,)
+    location = forms.CharField(max_length=100,
+                                error_messages={'required': _(u'Please enter your location/state.')},
+                                min_length=1,
+                                required=True,
+                                label=_(u'Location/State'))
     
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
         super(ProfileForm, self).__init__( * args, ** kwargs)
         if len(args) == 1:
             email = args[0]['email']
@@ -280,7 +251,6 @@ class ProfileForm(forms.Form):
             })
             self.helper.layout = Layout(
                 Div(
-                    HTML("""<label class="control-label col-lg-2">""" + _(u'Photo') + """</label>"""),
                     Div(
                         HTML("""<label class="control-label col-lg-2">"""+_(u'Photo') + """</label>"""),
                         Div(
@@ -296,15 +266,10 @@ class ProfileForm(forms.Form):
                     'email',
                     'first_name',
                     'last_name',
-                    'phoneno',
-                    'currently_working_facility',
-                    'staff_type',
-                    'nurhi_sponsor_training',
-                    'fp_methods_provided',
-                    'highest_education_level',
-                    'religion',
                     'sex',
-                    'age',
+                    'age_range',
+                    'role',
+                    'location',
                     Div(
                         HTML("""<h3>"""+_(u'Change password') + """</h3>"""),
                         ),
@@ -324,15 +289,10 @@ class ProfileForm(forms.Form):
                     'email',
                     'first_name',
                     'last_name',
-                    'phoneno',
-                    'currently_working_facility',
-                    'staff_type',
-                    'nurhi_sponsor_training',
-                    'fp_methods_provided',
-                    'highest_education_level',
-                    'religion',
                     'sex',
-                    'age',
+                    'age_range',
+                    'role',
+                    'location',
                     Div(
                         HTML("""<h3>"""+_(u'Change password') + """</h3>"""),
                         ),
