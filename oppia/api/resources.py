@@ -164,15 +164,10 @@ class RegisterResource(ModelResource):
                     'email', 
                     'firstname', 
                     'lastname',
-                    'phoneno',
-                    'currently_working_facility',
-                    'fp_methods_provided', 
-                    'staff_type',
-                    'nurhi_sponsor_training',
-                    'highest_education_level',
-                    'religion',
                     'sex',
-                    'age']
+                    'age_range',
+                    'role',
+                    'location']
 
         check_required_params(bundle, required)
 
@@ -180,15 +175,10 @@ class RegisterResource(ModelResource):
                 'password': bundle.data['password'],
                 'password_again': bundle.data['passwordagain'],
                 'email': bundle.data['email'],
-                'phoneno': bundle.data['phoneno'],
-                'currently_working_facility': bundle.data['currently_working_facility'],
-                'fp_methods_provided': bundle.data['fp_methods_provided'],
-                'staff_type': bundle.data['staff_type'],
-                'nurhi_sponsor_training': bundle.data['nurhi_sponsor_training'],
-                'highest_education_level': bundle.data['highest_education_level'],
-                'religion': bundle.data['religion'],
                 'sex': bundle.data['sex'],
-                'age': bundle.data['age'],
+                'age_range': bundle.data['age_range'],
+                'role': bundle.data['role'],
+                'location': bundle.data['location'],
                 'first_name': bundle.data['firstname'],
                 'last_name': bundle.data['lastname'], }
         rf = RegisterForm(data)
@@ -212,22 +202,10 @@ class RegisterResource(ModelResource):
 
             user_profile = UserProfile()
             user_profile.user = bundle.obj
-            user_profile.phoneno = bundle.data['phoneno']
-            user_profile.currently_working_facility = bundle.data['currently_working_facility']
-            user_profile.staff_type = bundle.data['staff_type']
-            user_profile.nurhi_sponsor_training = bundle.data['nurhi_sponsor_training']
-            user_profile.fp_methods_provided = bundle.data['fp_methods_provided']
-            user_profile.highest_education_level = bundle.data['highest_education_level']
-            user_profile.religion = bundle.data['religion']
             user_profile.sex = bundle.data['sex']
-            user_profile.age = bundle.data['age']
-            user_profile.save()
-            if 'jobtitle' in bundle.data:
-                user_profile.job_title = bundle.data['jobtitle']
-            if 'organisation' in bundle.data:
-                user_profile.organisation = bundle.data['organisation']
-            if 'phoneno' in bundle.data:
-                user_profile.phone_number = bundle.data['phoneno']
+            user_profile.age_range = bundle.data['age_range']
+            user_profile.role = bundle.data['role']
+            user_profile.location = bundle.data['location']
             user_profile.save()
 
             u = authenticate(username=username, password=password)
@@ -248,14 +226,9 @@ class RegisterResource(ModelResource):
         del bundle.data['password']
         del bundle.data['firstname']
         del bundle.data['lastname']
-        del bundle.data['phoneno']
-        del bundle.data['currently_working_facility']
-        del bundle.data['staff_type']
-        del bundle.data['nurhi_sponsor_training']
-        del bundle.data['highest_education_level']
-        del bundle.data['religion']
-        del bundle.data['sex']
-        del bundle.data['age'] 
+        del bundle.data['age_range'] 
+        del bundle.data['role'] 
+        del bundle.data['location'] 
         return bundle   
  
     def dehydrate_points(self,bundle):
