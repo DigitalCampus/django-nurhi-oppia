@@ -11,8 +11,8 @@ class UserProfile (models.Model):
     
     AGE_RANGE = [
         ('under_18', _(u'under 18')),
-        ('18_25', _(u'18-24')),
-        ('25_35', _(u'25-34')),
+        ('18_24', _(u'18-24')),
+        ('25_34', _(u'25-34')),
         ('35_50', _(u'35-50')),
         ('over_50', _(u'over 50')),
         ('none', _(u'Prefer not to say')),
