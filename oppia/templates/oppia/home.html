@@ -28,13 +28,12 @@
 	<div><a href="{% url 'oppia_leaderboard' %}">{% trans "more..." %}</a></div>
 {% else %}
     {% static "oppia/images/dc-logo-150x150.png" as oppia_logo %}
-	{% blocktrans %} 
 	<div style="width:60%;margin:auto; text-align:center">
-	<p>NURHI Training is the mobile learning platform from <a href="http://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
+	<img src="{% static "oppia/images/logo_homepage.png" %}"/>
+	<p>{% trans 'app_name' %} is the mobile learning platform from <a href="http://digital-campus.org">Digital Campus</a> to deliver learning content, multimedia and quizzes on your smartphone. All the content and activities can
 	be accessed and used even when you don't have an internet connection available on your mobile.</p>
-	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id=org.nurhi.oppia">download the NURHI training app</a>. 
+	<p>To get started with our courses, <a href="https://play.google.com/store/apps/details?id=org.nurhi.oppia">download the {% trans 'app_name' %} app</a>. 
 	</div>
-	{% endblocktrans %}
 
 {% endif %} 
 
