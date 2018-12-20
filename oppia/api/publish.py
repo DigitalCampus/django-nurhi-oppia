@@ -5,6 +5,7 @@ import oppia.api
 import os
 from django.conf import settings
 from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, Http404, HttpResponse, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
@@ -95,7 +96,9 @@ def publish_view(request):
     authenticated, response_data = authenticate_user(request.POST['username'], request.POST['password'])
     if not authenticated:
         return JsonResponse(response_data, status=401)
-
+    else:
+        user = User.objects.get(username=request.POST['username'])
+        
     # check user has permissions to publish course
     if settings.OPPIA_STAFF_ONLY_UPLOAD is True \
             and not user.is_staff \
